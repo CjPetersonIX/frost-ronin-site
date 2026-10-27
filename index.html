@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FROST RONIN — Neon Ice · Blood Ronin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+:root{--ice:#00e5ff;--blood:#8b0000;--blood-hot:#ff1a1a;--black:#050508;--glass:rgba(0,229,255,.06);--border:rgba(0,229,255,.22);--text:#e8f7ff;--muted:#7a9aaa}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'Share Tech Mono',monospace;cursor:none;overflow-x:hidden}
+#cursor{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--blood-hot);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--blood-hot),0 0 30px var(--blood);transition:width .15s,height .15s}
+#cursor.big{width:40px;height:40px;background:var(--ice);box-shadow:0 0 20px var(--ice)}
+.drip{position:fixed;width:3px;background:linear-gradient(var(--blood-hot),transparent);pointer-events:none;z-index:9997;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(100vh);opacity:0}}
+.scanlines{pointer-events:none;position:fixed;inset:0;z-index:9000;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px)}
+.vignette{pointer-events:none;position:fixed;inset:0;z-index:8999;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.75) 100%)}
+#spotlight{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(600px circle at var(--sx,50%) var(--sy,40%),rgba(0,229,255,.07),transparent 50%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:linear-gradient(180deg,rgba(5,5,8,.95),transparent);backdrop-filter:blur(8px)}
+.logo{font-family:Cinzel,serif;font-weight:900;letter-spacing:.25em;color:var(--ice);text-shadow:0 0 20px var(--ice)}
+.logo span{color:var(--blood-hot)}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase}
+.nav-links a:hover{color:var(--ice)}
+.social-nav{display:flex;gap:.8rem}
+.social-nav a{width:32px;height:32px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ice);font-size:.7rem;text-decoration:none;background:var(--glass)}
+.social-nav a:hover{background:var(--blood);color:#fff;box-shadow:0 0 20px var(--blood-hot)}
+.warning{background:var(--blood);color:#fff;text-align:center;padding:.4rem;font-size:.6rem;letter-spacing:.3em;overflow:hidden}
+.warning span{display:inline-block;animation:mq 18s linear infinite;white-space:nowrap}
+@keyframes mq{from{transform:translateX(40%)}to{transform:translateX(-40%)}}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;z-index:2}
+.hero-bg{position:absolute;inset:0;background:url('img/hero-title.jpg') center/cover;filter:brightness(.45) contrast(1.15);animation:pulse 8s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.08);filter:brightness(.55)}}
+.hero-content{position:relative;z-index:3;text-align:center;padding:2rem;max-width:900px}
+.hero-tag{font-size:.65rem;letter-spacing:.4em;color:var(--ice);margin-bottom:1rem}
+.hero-title{font-family:Cinzel,serif;font-weight:900;font-size:clamp(2.5rem,8vw,5rem);letter-spacing:.15em;background:linear-gradient(180deg,#fff,var(--ice));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(0,229,255,.5))}
+.hero-sub{margin-top:1rem;letter-spacing:.35em;color:var(--blood-hot);text-shadow:0 0 20px var(--blood-hot);font-size:.85rem}
+.cta{margin-top:2.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn{padding:.9rem 1.8rem;border:1px solid var(--border);background:var(--glass);color:var(--ice);font-family:inherit;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;cursor:none;backdrop-filter:blur(10px);transition:.3s}
+.btn:hover{box-shadow:0 0 30px rgba(0,229,255,.3);border-color:var(--ice)}
+.btn.blood{border-color:rgba(196,30,30,.5);color:var(--blood-hot);background:rgba(139,0,0,.2)}
+.btn.blood:hover{box-shadow:0 0 30px var(--blood-hot)}
+section{position:relative;z-index:2;padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.sl{font-size:.6rem;letter-spacing:.4em;color:var(--ice);margin-bottom:.5rem}
+.st{font-family:Cinzel,serif;font-size:clamp(1.6rem,4vw,2.8rem);letter-spacing:.1em;margin-bottom:1rem}
+.sd{color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:2rem;font-size:.85rem}
+.glass{background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(16px);border-radius:4px}
+.glass:hover{border-color:var(--ice);box-shadow:0 0 40px rgba(0,229,255,.12)}
+.wgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:center}
+@media(max-width:800px){.wgrid{grid-template-columns:1fr}.nav-links{display:none}}
+.wimg{overflow:hidden;border-radius:4px;border:1px solid var(--border)}
+.wimg img{width:100%;display:block;transition:transform .6s}
+.wimg:hover img{transform:scale(1.05)}
+.wi h3{font-family:Cinzel,serif;font-size:1.4rem;color:var(--ice);margin-bottom:1rem}
+.wi p{color:var(--muted);line-height:1.8;margin-bottom:1.2rem;font-size:.85rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.stat{padding:1rem;background:rgba(0,0,0,.4);border:1px solid rgba(196,30,30,.3)}
+.stat-l{font-size:.55rem;letter-spacing:.2em;color:var(--blood-hot);margin-bottom:.3rem}
+.stat-v{font-family:Cinzel,serif;font-size:1rem}
+.knife-zone{position:relative;min-height:380px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(196,30,30,.4);margin-top:2rem;background:radial-gradient(ellipse at center,rgba(139,0,0,.15),#0a0a0f)}
+.knife-float{max-width:90%;max-height:340px;object-fit:contain;filter:drop-shadow(0 0 40px rgba(196,30,30,.5));transition:transform .15s;pointer-events:none}
+.knife-hint{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:.55rem;letter-spacing:.3em;color:var(--blood-hot);opacity:.7}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem}
+.gi{position:relative;overflow:hidden;border-radius:4px;border:1px solid var(--border);aspect-ratio:1;background:#000}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .5s,filter .5s;filter:brightness(.85)}
+.gi:hover img{transform:scale(1.08);filter:brightness(1.05)}
+.gi .ov{position:absolute;inset:0;display:flex;align-items:flex-end;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,.8));opacity:0;transition:opacity .3s}
+.gi:hover .ov{opacity:1}
+.gi .ov span{font-size:.65rem;letter-spacing:.15em;color:var(--ice)}
+.sheet{overflow:hidden;border-radius:4px;border:1px solid var(--border);margin-bottom:1rem}
+.sheet img{width:100%;display:block}
+.lore{padding:2.5rem}
+.lore p{line-height:1.9;color:var(--muted);margin-bottom:1.1rem;font-size:.9rem}
+.lore em{color:var(--ice);font-style:normal}
+.scards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+@media(max-width:700px){.scards{grid-template-columns:1fr}}
+.sc{padding:2rem 1.5rem;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:.8rem;transition:.35s}
+.sc:hover{transform:translateY(-6px)}
+.sc .ic{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:1px solid var(--border);background:rgba(0,0,0,.5)}
+.sc h4{font-family:Cinzel,serif;letter-spacing:.15em;font-size:.95rem}
+.sc p{font-size:.65rem;color:var(--muted)}
+footer{text-align:center;padding:3rem 2rem;border-top:1px solid rgba(0,229,255,.1);color:var(--muted);font-size:.65rem;letter-spacing:.2em;z-index:2;position:relative}
+#lb{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.95);align-items:center;justify-content:center;backdrop-filter:blur(10px)}
+#lb.on{display:flex}
+#lb img{max-width:92vw;max-height:88vh;object-fit:contain;border:1px solid var(--border)}
+#lb .x{position:absolute;top:1.5rem;right:2rem;color:var(--ice);font-size:2rem;background:none;border:none;font-family:inherit;cursor:none}
+</style>
+</head>
+<body>
+<div id="cursor"></div><div class="scanlines"></div><div class="vignette"></div><div id="spotlight"></div>
+<nav>
+  <div class="logo">FROST <span>RONIN</span></div>
+  <ul class="nav-links">
+    <li><a href="#weapon">Weapon</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#identity">Identity</a></li>
+    <li><a href="#lore">Lore</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+  <div class="social-nav">
+    <a href="https://x.com/frostronin" target="_blank" rel="noopener">𝕏</a>
+    <a href="https://instagram.com/frostronin" target="_blank" rel="noopener">IG</a>
+    <a href="https://facebook.com/frostronin" target="_blank" rel="noopener">f</a>
+  </div>
+</nav>
+<div class="warning"><span>⚠ WARNING — BLOOD · STEEL · NEON ICE — FROST RONIN IS WATCHING — ENTER AT YOUR OWN RISK — ⚠ WARNING — BLOOD · STEEL · NEON ICE — FROST RONIN IS WATCHING — </span></div>
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">OFFICIAL SITE · 9TH REALM</div>
+    <h1 class="hero-title">FROST RONIN</h1>
+    <p class="hero-sub">NEON ICE · BLOOD RONIN · HALLOWEEN ICON</p>
+    <div class="cta">
+      <a class="btn blood" href="#weapon">MEET THE BLADE</a>
+      <a class="btn" href="#gallery">ENTER GALLERY</a>
+      <a class="btn" href="#connect">FOLLOW HER</a>
+    </div>
+  </div>
+</header>
+<section id="weapon">
+  <div class="sl">// PRIMARY WEAPON</div>
+  <h2 class="st">The Butcher's Kiss</h2>
+  <p class="sd">A giant, realistic stainless steel butcher knife. Heavy. Honest. Always wet with something that used to be warm.</p>
+  <div class="wgrid">
+    <div class="wimg glass"><img src="img/knife-raise.jpg" alt="Frost Ronin raising giant bloody butcher knife"/></div>
+    <div class="wi">
+      <h3>GIANT BUTCHER KNIFE</h3>
+      <p>Forged for the kill floor, claimed by Frost Ronin. Full-tang steel, worn grip, blade long enough to end conversations. Blood never fully dries on it — she prefers it that way.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-l">TYPE</div><div class="stat-v">Butcher Hybrid</div></div>
+        <div class="stat"><div class="stat-l">STATUS</div><div class="stat-v">Always Armed</div></div>
+        <div class="stat"><div class="stat-l">FINISH</div><div class="stat-v">Blood-Wet Steel</div></div>
+        <div class="stat"><div class="stat-l">OWNER</div><div class="stat-v">Frost Ronin</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="knife-zone glass" id="kz">
+    <img src="img/knife-close.jpg" class="knife-float" id="kf" alt="Bloody butcher knife close-up"/>
+    <div class="knife-hint">MOVE CURSOR — THE BLADE FOLLOWS</div>
+  </div>
+</section>
+<section id="gallery">
+  <div class="sl">// VISUALS</div>
+  <h2 class="st">Gallery</h2>
+  <p class="sd">Mask studies. Neon ice under blood light. The blade.</p>
+  <div class="ggrid">
+    <div class="gi" data-f="img/portrait.jpg"><img src="img/portrait.jpg" alt="Portrait"/><div class="ov"><span>PORTRAIT</span></div></div>
+    <div class="gi" data-f="img/mask-close.jpg"><img src="img/mask-close.jpg" alt="Mask"/><div class="ov"><span>MASK</span></div></div>
+    <div class="gi" data-f="img/knife-raise.jpg"><img src="img/knife-raise.jpg" alt="Knife raised"/><div class="ov"><span>THE BLADE</span></div></div>
+    <div class="gi" data-f="img/knife-close.jpg"><img src="img/knife-close.jpg" alt="Knife close"/><div class="ov"><span>CLOSE-UP</span></div></div>
+    <div class="gi" data-f="img/hero-title.jpg"><img src="img/hero-title.jpg" alt="Title"/><div class="ov"><span>TITLE CARD</span></div></div>
+    <div class="gi" data-f="img/charsheet.jpg"><img src="img/charsheet.jpg" alt="Sheet"/><div class="ov"><span>SHEET</span></div></div>
+  </div>
+</section>
+<section id="identity">
+  <div class="sl">// CHARACTER SHEET</div>
+  <h2 class="st">Identity Lock</h2>
+  <p class="sd">Neon ice blue hair. Red Hello Kitty horror mask. Blood. Always.</p>
+  <div class="sheet glass"><img src="img/charsheet.jpg" alt="Frost Ronin character sheet"/></div>
+</section>
+<section id="lore">
+  <div class="sl">// TRANSMISSION</div>
+  <h2 class="st">Who Is She?</h2>
+  <div class="lore glass">
+    <p>They call her <em>Frost Ronin</em> — neon ice in her hair, blood on her skin, and a red mask that smiles with too many teeth.</p>
+    <p>She walks under a single spotlight. The floor is always wet. The knife is always ready. She does not speak. The mask does the talking.</p>
+    <p>Half high-fashion, half slaughterhouse. Space buns with rhinestone bows. Spiked collar. Red heels that never slip in the blood.</p>
+    <p><em>Neon ice. Blood ronin. Halloween forever.</em></p>
+  </div>
+</section>
+<section id="connect" style="text-align:center">
+  <div class="sl">// FOLLOW</div>
+  <h2 class="st">Find Frost Ronin</h2>
+  <p class="sd" style="margin:0 auto 0">She already has pages. Stalk responsibly.</p>
+  <div class="scards">
+    <a class="sc glass" href="https://x.com/frostronin" target="_blank" rel="noopener"><div class="ic">𝕏</div><h4>X / TWITTER</h4><p>@frostronin</p></a>
+    <a class="sc glass" href="https://instagram.com/frostronin" target="_blank" rel="noopener"><div class="ic">IG</div><h4>INSTAGRAM</h4><p>@frostronin</p></a>
+    <a class="sc glass" href="https://facebook.com/frostronin" target="_blank" rel="noopener"><div class="ic">f</div><h4>FACEBOOK</h4><p>Frost Ronin</p></a>
+  </div>
+</section>
+<footer>
+  <div class="logo" style="margin-bottom:1rem">FROST <span>RONIN</span></div>
+  <p>NEON ICE · BLOOD RONIN · 9TH REALM</p>
+  <p style="margin-top:.8rem;opacity:.5">© 2026 · Enter at your own risk</p>
+</footer>
+<div id="lb"><button class="x" aria-label="Close">×</button><img src="" alt=""/></div>
+<script>
+const cur=document.getElementById('cursor'),spot=document.getElementById('spotlight');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';spot.style.setProperty('--sx',mx+'px');spot.style.setProperty('--sy',my+'px')});
+document.querySelectorAll('a,button,.gi,.btn').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('big'));el.addEventListener('mouseleave',()=>cur.classList.remove('big'))});
+setInterval(()=>{if(Math.random()>.55)return;const d=document.createElement('div');d.className='drip';d.style.left=(mx+(Math.random()*10-5))+'px';d.style.top=my+'px';d.style.height=(20+Math.random()*40)+'px';d.style.animationDuration=(1.5+Math.random()*2)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),3500)},400);
+const zone=document.getElementById('kz'),knife=document.getElementById('kf');
+if(zone&&knife){zone.addEventListener('mousemove',e=>{const r=zone.getBoundingClientRect();const x=((e.clientX-r.left)/r.width-.5)*20;const y=((e.clientY-r.top)/r.height-.5)*12;knife.style.transform=`perspective(800px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.02)`});zone.addEventListener('mouseleave',()=>knife.style.transform='none')}
+const lb=document.getElementById('lb'),lbImg=lb.querySelector('img');
+document.querySelectorAll('.gi').forEach(item=>item.addEventListener('click',()=>{lbImg.src=item.dataset.f;lb.classList.add('on')}));
+lb.querySelector('.x').onclick=()=>lb.classList.remove('on');
+lb.onclick=e=>{if(e.target===lb)lb.classList.remove('on')};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+</script>
+</body>
+</html>
